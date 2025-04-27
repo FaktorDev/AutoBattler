@@ -31,9 +31,6 @@ There are several reasons for this:
 ### - :bar_chart: **Game configuration via Google Sheets**: The game uses Google Sheets to store character, enemy, item, and adventure configurations. This makes it easy to edit and add new content.
   
   - [Characters](https://docs.google.com/spreadsheets/d/1-kQhNXS615orKscKRtoWPQWgkRVdVD8irhbGeJkgU0E/edit?usp=sharing)
-  - [Enemies](https://docs.google.com/spreadsheets/d/1ky0qI1X2MfH1mMcJeIdzSwNU94SQgndCK-7z4P3BwgM/edit?usp=sharing)
-  - [Items](https://docs.google.com/spreadsheets/d/192ViYm527yxScizkhkKTtlD133Rtm3-7xO94jnllQ60/edit?usp=sharing)
-  - [Adventures](https://docs.google.com/spreadsheets/d/1Zy30a2csTp8v_Uv6Qp0hC9EQNbZbOB-b1gVrkolIuoA/edit?usp=sharing)
 
 ### - :wrench: **Flexible Combat System**: The battle system allows you to create a variety of battle configurations, which makes the game interesting and dynamic.
   
