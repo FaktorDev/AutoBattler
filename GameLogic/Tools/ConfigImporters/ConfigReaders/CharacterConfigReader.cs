@@ -81,8 +81,8 @@ public class CharacterConfig
     public int Version { get; set; }
     public string Description { get; set; } = string.Empty;
     public string UrlImage { get; set; } = string.Empty;
-    public UnitClass Class1 { get; set; } = UnitClass.None;
-    public UnitClass Class2 { get; set; } = UnitClass.None;
+    public UnitClasses Class1 { get; set; } = UnitClasses.None;
+    public UnitClasses Class2 { get; set; } = UnitClasses.None;
     public float Initiative { get; set; }
     public float Speed { get; set; }
     public float AttackRange { get; set; }

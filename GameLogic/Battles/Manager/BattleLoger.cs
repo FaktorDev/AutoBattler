@@ -1,14 +1,14 @@
 ﻿using GameLogic.Battles.Enums;
-using GameLogic.BattleSystem.Enums;
 using GameLogic.Units;
 using Serilog;
+using Serilog.Core;
 using System.Text;
 
 namespace GameLogic.Battles.Manager;
 
 public class BattleLogger
 {
-    private readonly ILogger _logger;
+    private readonly Logger _logger;
     private readonly string _logDirectory;
     private readonly Battle _battle;
 
@@ -19,7 +19,7 @@ public class BattleLogger
         _logDirectory = Path.Combine(documentsPath, "Camp of Strangers", "Logs");
         Directory.CreateDirectory(_logDirectory);
 
-        string fileName = $"{battleTime:yyyy-MM-dd_HH-mm-ss}_{BattleTypesParser.Parse(battle.Configuration.BattleType)}_battle-log.html";
+        string fileName = $"{battleTime:yyyy-MM-dd_HH-mm-ss}_{BattleTypesParser.Parse(battle.Parameters.BattleType)}_battle-log.html";
         string filePath = Path.Combine(_logDirectory, fileName);
 
         _logger = new LoggerConfiguration()
@@ -93,11 +93,11 @@ public class BattleLogger
         {
             LogCustom($"battle", "start", "\n" +
                 $"STARTING CONFIGURATION\n" +
-                $"TYPE : {BattleTypesParser.Parse(battle.Configuration.BattleType)}\n" +
-                $"DAY TIME : {battle.Configuration.DayTime}\n" +
-                $"TEMPETURA : {battle.Configuration.Tempetura}\n" +
-                $"TERRAIN : {battle.Configuration.Terrain}\n" +
-                $"WEATHER : {battle.Configuration.Weather}\n" +
+                $"TYPE : {BattleTypesParser.Parse(battle.Parameters.BattleType)}\n" +
+                $"DAY TIME : {battle.Parameters.DayTime}\n" +
+                $"TEMPETURA : {battle.Parameters.Tempetura}\n" +
+                $"TERRAIN : {battle.Parameters.Terrain}\n" +
+                $"WEATHER : {battle.Parameters.Weather}\n" +
                 $"{TeamInfo()}\n");
 
             string TeamInfo()

@@ -8,7 +8,7 @@ namespace GameLogic.Units.Content.Characters;
 
 internal class Unit_0001 : Character
 {
-    public Unit_0001(UnitConfiguration config, Team team, CharacterConfigReader pathConfig, Battle battle) : base(config, pathConfig, team, battle)
+    public Unit_0001(UnitParameters config, Team team, CharacterConfigReader pathConfig, Battle battle) : base(config, pathConfig, team, battle)
     {
         Actions.Add(new AbilityAutoAttack(battle, this));
     }

@@ -1,5 +1,4 @@
-﻿using GameLogic.Units;
-using GameLogic.Units.Enums;
+﻿using GameLogic.Units.Enums;
 
 namespace GameLogic.Tools.Formulas;
 
@@ -8,61 +7,61 @@ internal class UnitClassFormulas
     /// <summary>
     /// Отримати пріорітети атаки кожного класу
     /// </summary>
-    public static Dictionary<UnitClass, float> WeightToSelect(UnitClass unitClass1, UnitClass unitClass2)
+    public static Dictionary<UnitClasses, float> WeightToSelect(UnitClasses unitClass1, UnitClasses unitClass2)
     {
         const float COEF_POWER_OF_SUB_CLASS = 0.5f;
 
-        var dictionary = new Dictionary<UnitClass, float>
+        var dictionary = new Dictionary<UnitClasses, float>
         {
-            { UnitClass.None, 1f },
-            { UnitClass.Assassin, 1.5f },
-            { UnitClass.Buffer, 0.75f },
-            { UnitClass.Controller, 1f },
-            { UnitClass.Healer, 1f },
-            { UnitClass.Mage, 1f },
-            { UnitClass.Marksman, 1f },
-            { UnitClass.Support, 0.5f },
-            { UnitClass.Tank, 5f },
-            { UnitClass.Warrior, 2.5f },
-            { UnitClass.Universal, 1f }
+            { UnitClasses.None, 1f },
+            { UnitClasses.Assassin, 1.5f },
+            { UnitClasses.Buffer, 0.75f },
+            { UnitClasses.Controller, 1f },
+            { UnitClasses.Healer, 1f },
+            { UnitClasses.Mage, 1f },
+            { UnitClasses.Marksman, 1f },
+            { UnitClasses.Support, 0.5f },
+            { UnitClasses.Tank, 5f },
+            { UnitClasses.Warrior, 2.5f },
+            { UnitClasses.Universal, 1f }
         };
         ConsiderСlass(dictionary, unitClass1);
         ConsiderСlass(dictionary, unitClass2, COEF_POWER_OF_SUB_CLASS);
         return dictionary;
 
-        static void ConsiderСlass(Dictionary<UnitClass, float> dictionary, UnitClass unitClass, float powerCoef = 1f)
+        static void ConsiderСlass(Dictionary<UnitClasses, float> dictionary, UnitClasses unitClass, float powerCoef = 1f)
         {
             switch (unitClass)
             {
-                case UnitClass.Assassin:
-                    dictionary[UnitClass.Healer] *= 2 * powerCoef;
-                    dictionary[UnitClass.Marksman] *= 2 * powerCoef;
-                    dictionary[UnitClass.Support] *= 2 * powerCoef; 
-                    dictionary[UnitClass.Tank] /= 2 * powerCoef;
-                    dictionary[UnitClass.Warrior] /= 2 * powerCoef; 
+                case UnitClasses.Assassin:
+                    dictionary[UnitClasses.Healer] *= 2 * powerCoef;
+                    dictionary[UnitClasses.Marksman] *= 2 * powerCoef;
+                    dictionary[UnitClasses.Support] *= 2 * powerCoef;
+                    dictionary[UnitClasses.Tank] /= 2 * powerCoef;
+                    dictionary[UnitClasses.Warrior] /= 2 * powerCoef;
                     break;
-                case UnitClass.Marksman:
-                    dictionary[UnitClass.Assassin] *= 2 * powerCoef;
-                    dictionary[UnitClass.Tank] /= 5 * powerCoef;
-                    dictionary[UnitClass.Warrior] /= 2.5f * powerCoef;
+                case UnitClasses.Marksman:
+                    dictionary[UnitClasses.Assassin] *= 2 * powerCoef;
+                    dictionary[UnitClasses.Tank] /= 5 * powerCoef;
+                    dictionary[UnitClasses.Warrior] /= 2.5f * powerCoef;
                     break;
-                case UnitClass.Controller:
-                    dictionary[UnitClass.Assassin] *= 2 * powerCoef;
-                    dictionary[UnitClass.Healer] *= 2 * powerCoef;
-                    dictionary[UnitClass.Support] *= 2 * powerCoef;
+                case UnitClasses.Controller:
+                    dictionary[UnitClasses.Assassin] *= 2 * powerCoef;
+                    dictionary[UnitClasses.Healer] *= 2 * powerCoef;
+                    dictionary[UnitClasses.Support] *= 2 * powerCoef;
                     break;
-                case UnitClass.Tank:
-                    dictionary[UnitClass.Assassin] *= 3 * powerCoef;
-                    dictionary[UnitClass.Tank] *= 3 * powerCoef;
-                    dictionary[UnitClass.Warrior] *= 3 * powerCoef;
+                case UnitClasses.Tank:
+                    dictionary[UnitClasses.Assassin] *= 3 * powerCoef;
+                    dictionary[UnitClasses.Tank] *= 3 * powerCoef;
+                    dictionary[UnitClasses.Warrior] *= 3 * powerCoef;
                     break;
 
-                case UnitClass.Universal:
-                case UnitClass.Warrior:
-                case UnitClass.Mage:
-                case UnitClass.Buffer:
-                case UnitClass.Support:
-                case UnitClass.Healer:
+                case UnitClasses.Universal:
+                case UnitClasses.Warrior:
+                case UnitClasses.Mage:
+                case UnitClasses.Buffer:
+                case UnitClasses.Support:
+                case UnitClasses.Healer:
                     break;
 
                 default:

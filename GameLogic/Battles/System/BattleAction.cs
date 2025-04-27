@@ -12,13 +12,11 @@ public abstract class BattleAction : IBattleAction
     }
 
     public abstract void Action();
-    public virtual void RemoveFromBattle()
-    {
-        _battle.AllBattleActions.Remove(this);
-    }
+    public virtual void RemoveFromBattle() =>  _battle.AllBattleActions.Remove(this);
 }
 
 public interface IBattleAction
-{ 
+{
     void Action();
+    void RemoveFromBattle();
 }

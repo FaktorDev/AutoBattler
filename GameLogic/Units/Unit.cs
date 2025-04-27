@@ -19,9 +19,11 @@ public abstract class Unit
     public string Name { get; protected set; } = string.Empty;
 
     // Tactics
-    public UnitClass Class { get; protected set; }
-    public UnitClass SubClass { get; protected set; }
+    public UnitClasses Class { get; protected set; }
+    public UnitClasses SubClass { get; protected set; }
     public TUnitResource<float> Initiative { get; protected set; } = new(100);
+    public TUnitProperty<float> InitiativeRecoveryCoef { get; protected set; } = new(1f);
+    public TUnitProperty<float> InitiativeResistanceCoef { get; protected set; } = new(1f);
     public TUnitProperty<float> Speed { get; protected set; } = new(5);
     public TUnitProperty<float> AttackRange { get; protected set; } = new(30);
     public TacticalTypes TacticalType { get; protected set; }
@@ -137,19 +139,20 @@ public abstract class Unit
         }
     }
 
-    public virtual void ReceiceHeal(double damage, object source)
+    public virtual void ReceiceHeal(double health, object source)
     {
         if (HealthPoints.Now == HealthPoints.Max)
             return;
 
-        var posibleHp = HealthPoints.Now + damage;
+        var posibleHp = HealthPoints.Now + health;
+
         if (posibleHp >= HealthPoints.Max)
             HealthPoints.Now = HealthPoints.Max;
 
         if (posibleHp < HealthPoints.Max)
             HealthPoints.Now = posibleHp;
 
-        OnHealthRecovery?.Invoke(source, new(this, damage, source.ToString()!));
+        OnHealthRecovery?.Invoke(source, new(this, health, source.ToString()!));
     }
 
     public bool IsAlive() => HealthPoints.Now > 0;
@@ -179,11 +182,11 @@ public abstract class Unit
 
         return dictionary;
     }
-    protected Dictionary<Unit, float> AddСlassСonsideration(Dictionary<UnitClass, float> targetsPrioritetsClass, Dictionary<Unit, float> targets)
+    protected Dictionary<Unit, float> AddСlassСonsideration(Dictionary<UnitClasses, float> targetsPrioritetsClass, Dictionary<Unit, float> targets)
     {
         foreach (var target in targets.Keys.ToList())
         {
-            UnitClass unitClass = target.Class; // Припускаємо, що у класу Unit є властивість UnitClass
+            UnitClasses unitClass = target.Class; // Припускаємо, що у класу Unit є властивість UnitClass
             if (targetsPrioritetsClass.TryGetValue(unitClass, out float priority))
             {
                 targets[target] *= priority;

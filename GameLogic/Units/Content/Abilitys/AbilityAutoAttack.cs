@@ -17,7 +17,7 @@ internal class AbilityAutoAttack : RechargingAbility
     {
         var logger = _battle.Logger;
 
-        var enemys = GetEnemys();
+        var enemys = GetPossibleTarger();
         var target = _unit.SelectEnemy(enemys, _unit.AttackRange.Now);
 
         if (target is null)

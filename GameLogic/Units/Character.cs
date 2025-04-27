@@ -8,12 +8,10 @@ namespace GameLogic.Units;
 
 public abstract class Character : Unit
 {
-    public Character(UnitConfiguration configuration, CharacterConfigReader configReader, Team team, Battle battle) : base(team, battle)
+    public Character(UnitParameters configuration, CharacterConfigReader configReader, Team team, Battle battle) : base(team, battle)
     {
-        var config = configReader.GetCharacterConfigById(configuration.Id);
 
-        if (config == null)
-            throw new Exception("The character does not exist");
+        var config = configReader.GetCharacterConfigById(configuration.Id) ?? throw new Exception("The character does not exist");
         // Metadata
         Team = team;
         // Info

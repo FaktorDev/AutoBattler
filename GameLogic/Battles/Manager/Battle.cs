@@ -15,7 +15,7 @@ public class Battle
     public BattleLogger Logger { get; private set; }
 
     // Main
-    public BattleConfiguration Configuration { get; }
+    public BattleParameters Parameters { get; }
     public BattleResult BattleResult { get; protected set; }
     public Random Random { get; set; }
 
@@ -30,13 +30,18 @@ public class Battle
     public event EventHandler? OnBattleEnd;
     public event EventHandler? OnBattleDayPassed;
 
+    // Settings
+    public bool IsVisual { get; set; } = false;
+
     // Const
     public const float TIMILINE_MAX_VALUE = 86400000f;
 
-    public Battle(BattleConfiguration battleConfiguration, CharacterConfigReader characteConfigReader)
+    public Battle(BattleParameters battleConfiguration, CharacterConfigReader characteConfigReader, bool isVisual = false)
     {
+        IsVisual = isVisual;
+
         _unitFactory = new(characteConfigReader);
-        Configuration = battleConfiguration;
+        Parameters = battleConfiguration;
         Random = new Random(battleConfiguration.Seed);
 
         InitializeBattleConfiguration();
@@ -55,7 +60,7 @@ public class Battle
             .SelectMany(u => u.Actions)
             .OfType<IBattleAction>()
             .ToList();
-        }
+        }   
     }
 
     public BattleResult CalculateBattle()
@@ -82,8 +87,11 @@ public class Battle
         catch (Exception e)
         {
             Logger.LogError(e.Message);
+            return BattleResult;
         }
         return BattleResult;
+
+
 
         void InitializeUnits()
         {

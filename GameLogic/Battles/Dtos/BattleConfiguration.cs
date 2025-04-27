@@ -2,12 +2,11 @@
 using GameLogic.Battles.System;
 using GameLogic.BattleSystem.Enums;
 using Manager.BattleSystem;
-using Newtonsoft.Json.Converters;
 using System.Text.Json.Serialization;
 
 namespace GameLogic.Battles.Dtos;
 
-public class BattleConfiguration
+public class BattleParameters
 {
     public int Seed { get; set; }
 
@@ -22,16 +21,16 @@ public class BattleConfiguration
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public Weathers Weather { get; set; }
 
-    public List<TeamConfiguration> TeamConfigurations { get; set; }
+    public List<TeamParameters> TeamConfigurations { get; set; }
 
-    public BattleConfiguration(
+    public BattleParameters(
         int randomSeed,
         BattleTypes battleType,
         DayTimes dayTime,
         Tempeturas tempetura,
         Terrains terrain,
         Weathers weather,
-        List<TeamConfiguration> teams)
+        List<TeamParameters> teams)
     {
         Seed = randomSeed;
         BattleType = battleType;
@@ -44,7 +43,7 @@ public class BattleConfiguration
         TeamConfigurations = teams;
     }
 
-    public BattleConfiguration()
+    public BattleParameters()
     {
 
     }

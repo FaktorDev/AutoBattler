@@ -1,10 +1,10 @@
 ﻿namespace GameLogic.Units.Dtos;
 
-public class UnitConfiguration
+public class UnitParameters
 {
     public int Id { get; set; } = 0;
 
-    public UnitConfiguration(int id)
+    public UnitParameters(int id)
     {
         Id = id;
     }

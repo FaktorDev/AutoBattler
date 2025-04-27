@@ -22,7 +22,6 @@ public class BattleTimer
         NextUse += Default;
     }
 
-
     public void Reload(uint timeToNextUse)
     {
         NextUse = NextUse + timeToNextUse;
