@@ -7,7 +7,7 @@ namespace GameCore.Units.Actions.Abilitys;
 
 public abstract class Ability(Battle battle, Unit unit) : UnitAction(battle, unit)
 {
-    protected List<Unit> GetEnemys() => _battle.AllUnits.Where(u => u.Team.Token != _unit.Team.Token).ToList();
+    protected virtual List<Unit> GetPossibleTarger() => _battle.AllUnits.Where(u => u.Team.Token != _unit.Team.Token).ToList();
     protected double GetTotalPower(bool isCrit)
     {
         var damage = _unit.Damage.Now;
@@ -24,5 +24,10 @@ public abstract class Ability(Battle battle, Unit unit) : UnitAction(battle, uni
             return damage * coefInitiative;
     }
     
-    
+    protected double GetTotalPassiveHealth()
+    {
+        var healt = _unit.HealthPassive.Now;
+        var healtEff = _unit.HealthEfficiency.Now;
+        return healt * healtEff;
+    }
 }

@@ -24,7 +24,7 @@ public class BattleController : ControllerBase
     [HttpPost("pvp")]
     public IActionResult MakePvP([FromQuery] string jsonBattleConfiguration)
     {
-        var config = JsonConvert.DeserializeObject<BattleConfiguration>(jsonBattleConfiguration);
+        var config = JsonConvert.DeserializeObject<BattleParameters>(jsonBattleConfiguration);
         if (config == null)
         {
             Log.Error($"Cannot create config with this JSON:\n{jsonBattleConfiguration}\n");
@@ -39,7 +39,7 @@ public class BattleController : ControllerBase
     [HttpPost("pve")]
     public IActionResult MakePvE([FromQuery] string jsonBattleConfiguration)
     {
-        var config = JsonConvert.DeserializeObject<BattleConfiguration>(jsonBattleConfiguration);
+        var config = JsonConvert.DeserializeObject<BattleParameters>(jsonBattleConfiguration);
         if (config == null)
         {
             Log.Error($"Cannot create config with this JSON:\n{jsonBattleConfiguration}\n");
@@ -54,7 +54,7 @@ public class BattleController : ControllerBase
     [HttpPost("admin/custom")]
     public IActionResult Get([FromQuery] string jsonBattleConfiguration)
     {
-        var config = JsonConvert.DeserializeObject<BattleConfiguration>(jsonBattleConfiguration);
+        var config = JsonConvert.DeserializeObject<BattleParameters>(jsonBattleConfiguration);
         if (config == null)
         {
             Log.Error($"Cannot create config with this JSON:\n{jsonBattleConfiguration}\n");

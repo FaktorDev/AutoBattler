@@ -15,44 +15,52 @@ public class Battle
     public BattleLogger Logger { get; private set; }
 
     // Main
-    public BattleConfiguration Configuration { get; }
+    public BattleParameters Parameters { get; }
     public BattleResult BattleResult { get; protected set; }
     public Random Random { get; set; }
 
     // Battle 
-    public ulong Timeline { get; set; }
+    public ulong Timeline { get; set; } = 0;
     public List<Team> AllTeam { get; protected set; } = [];
     public List<Unit> AllUnits { get; protected set; } = [];
     public List<IBattleAction> AllBattleActions { get; protected set; } = [];
-    
 
-    public Battle(BattleConfiguration battleConfiguration, CharacterConfigReader characteConfigReader)
+    // Events
+    public event EventHandler? OnBattleStart;
+    public event EventHandler? OnBattleEnd;
+    public event EventHandler? OnBattleDayPassed;
+
+    // Settings
+    public bool IsVisual { get; set; } = false;
+
+    // Const
+    public const float TIMILINE_MAX_VALUE = 86400000f;
+
+    public Battle(BattleParameters battleConfiguration, CharacterConfigReader characteConfigReader, bool isVisual = false)
     {
+        IsVisual = isVisual;
+
         _unitFactory = new(characteConfigReader);
-        
-        Configuration = battleConfiguration;
-        
-        BattleResult = new(battleConfiguration);
+        Parameters = battleConfiguration;
         Random = new Random(battleConfiguration.Seed);
 
-        InitializeConfiguration();
+        InitializeBattleConfiguration();
 
         Logger = new(DateTime.Now, this);
+        BattleResult = new(battleConfiguration, this);
 
-        void InitializeConfiguration()
+        void InitializeBattleConfiguration()
         {
-            Timeline = 0;
-            var allTeams = new List<Team>();
-            foreach (var teamConfig in battleConfiguration.TeamConfigurations) {
-                allTeams.Add(new(teamConfig, this, _unitFactory));
+            foreach (var teamConfig in battleConfiguration.TeamConfigurations)
+            {
+                AllTeam.Add(new(teamConfig, this, _unitFactory));
             }
-            AllTeam = allTeams;
-            AllUnits = allTeams.SelectMany(t => t.Units).ToList();
+            AllUnits = AllTeam.SelectMany(t => t.Units).ToList();
             AllBattleActions = AllUnits
             .SelectMany(u => u.Actions)
             .OfType<IBattleAction>()
             .ToList();
-        }
+        }   
     }
 
     public BattleResult CalculateBattle()
@@ -61,33 +69,57 @@ public class Battle
 
         try
         {
-            StartBattle();
+            StartingBattleCalculation();
 
+            InitializeUnits();
             InitializeTeams();
-            InitializeBattle();
 
-            // Ігровий цикл
-            while (BattleResult.Stats.TeamWinner == Guid.Empty)
+            OnBattleStart?.Invoke(this, new EventArgs());
+
+            while (BattleResult.Stats.TeamWinner == Guid.Empty) // Game loop
             {
+                BattleTick();
                 FindAndExecuteAction();
             }
 
-            EndBattle();
+            EndBattleCalculation();
         }
         catch (Exception e)
         {
             Logger.LogError(e.Message);
+            return BattleResult;
         }
         return BattleResult;
 
+
+
+        void InitializeUnits()
+        {
+            foreach (var unit in AllUnits)
+            {
+                unit.OnDead += Unit_OnDead;
+            }
+
+            void Unit_OnDead(object? sender, DeadEventArgs e)
+            {
+                if (sender is Unit unit)
+                {
+                    foreach (var action in unit.Actions) // Remove the skills of a dead unit
+                    {
+                        action.RemoveFromBattle();
+                    }
+                    FindWinner();
+                }
+            }
+        }
         void InitializeTeams() // NEED MAKE BE COMPLEX
         {
             PlaceUnit();
 
             void PlaceUnit()
             {
-                float startPostition = -100f;
-                float stepBetweenTeam = 200f;
+                float startPostition = -5f;
+                float stepBetweenTeam = 10f;
 
                 foreach (var team in AllTeam)
                 {
@@ -99,39 +131,32 @@ public class Battle
                 }
             }
         }
-        void InitializeBattle()
-        {
-            foreach (var unit in AllUnits)
-            {
-                unit.OnDead += Unit_OnDead;
-            }
-
-            void Unit_OnDead(object? sender, DeadEventArgs e)
-            {
-                if (sender is Unit)
-                {
-                    FindWinner();
-                }
-            }
-        }
-
-        void StartBattle()
+        void StartingBattleCalculation()
         {
             stopwatch.Start();
         }
-        void EndBattle()
+        void EndBattleCalculation()
         {
             stopwatch.Stop();
             BattleResult.Stats.ActualDuration = stopwatch.ElapsedMilliseconds;
             BattleResult.EndTime = DateTime.UtcNow;
             BattleResult.Stats.TotalTimeline = Timeline;
+
+            OnBattleEnd?.Invoke(this, new EventArgs());
+        }
+        void BattleTick()
+        {
+            if (Timeline > TIMILINE_MAX_VALUE)
+            {
+                OnBattleDayPassed?.Invoke(this, new EventArgs());
+                EndBattleCalculation();
+                throw new Exception("The battle has been going on for a very long time");
+            }
         }
     }
 
     private void FindAndExecuteAction()
     {
-        if (BattleResult.Stats.TeamWinner != Guid.Empty)
-            return;
         if (AllBattleActions.Count <= 0)
             throw new Exception("No BattleAction");
 
@@ -146,18 +171,14 @@ public class Battle
         }
 
         var reloadableBattleActions = new List<RechargingAbility>();
-
         foreach (var battleAction in AllBattleActions)
-        {
             reloadableBattleActions.Add((RechargingAbility)battleAction);
-        }
 
         var reloadableBattleAction = reloadableBattleActions.OrderBy(a => a.Time.NextUse).First();
 
         Timeline = reloadableBattleAction.Time.NextUse;
         reloadableBattleAction.Action();
     }
-
     private void FindWinner()
     {
         var AliveTeams = new List<Team>();

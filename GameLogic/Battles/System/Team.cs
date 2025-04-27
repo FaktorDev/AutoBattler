@@ -11,7 +11,7 @@ public class Team
     public Player Player { get; }
     public List<Unit> Units { get; } = [];
 
-    public Team(TeamConfiguration configuration, Battle battle, UnitFactory factory)
+    public Team(TeamParameters configuration, Battle battle, UnitFactory factory)
     {
         Player = configuration.Player;
         Units = factory.GetUnits(configuration.UnitConfigurations, this, battle);
@@ -32,12 +32,12 @@ public class Team
     }
 }
 
-public class TeamConfiguration
+public class TeamParameters
 {
     public Player Player { get; set; }
-    public List<UnitConfiguration> UnitConfigurations { get; set; }
+    public List<UnitParameters> UnitConfigurations { get; set; }
 
-    public TeamConfiguration(Player player, List<UnitConfiguration> unitConfigurations)
+    public TeamParameters(Player player, List<UnitParameters> unitConfigurations)
     {
         Player = player;
         UnitConfigurations = unitConfigurations;

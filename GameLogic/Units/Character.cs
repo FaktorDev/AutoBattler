@@ -1,18 +1,17 @@
 ﻿using GameLogic.Battles.Manager;
 using GameLogic.Battles.System;
 using GameLogic.Tools.ShellImporters.ConfigReaders;
+using GameLogic.Units.Content.Abilitys;
 using GameLogic.Units.Dtos;
 
 namespace GameLogic.Units;
 
 public abstract class Character : Unit
 {
-    public Character(UnitConfiguration configuration, CharacterConfigReader configReader, Team team, Battle battle) : base(team, battle)
+    public Character(UnitParameters configuration, CharacterConfigReader configReader, Team team, Battle battle) : base(team, battle)
     {
-        var config = configReader.GetCharacterConfigById(configuration.Id);
 
-        if (config == null)
-            throw new Exception("The character does not exist");
+        var config = configReader.GetCharacterConfigById(configuration.Id) ?? throw new Exception("The character does not exist");
         // Metadata
         Team = team;
         // Info
@@ -40,12 +39,16 @@ public abstract class Character : Unit
         IgnoringArmor = new(config.IgnoringArmor);
         // Defensive
         HealthPoints = new(config.HealthPoints);
-        Shield = new(config.Shield);
+        Shields = [];
         ShieldEfficiency = new(config.ShieldEfficiency);
         HealthPassive = new(config.HealthPassive);
         HealthEfficiency = new(config.HealthEfficiency);
         Dexterity = new(config.Dexterity);
         CriticalDefeat = new(config.CriticalDefeat);
         Armor = new(config.Armor);
+
+        Shields.Add(new(config.Shield));
+        // Actions
+        Actions.Add(new PassiveHealthRecovery(Battle, this));
     }
 }

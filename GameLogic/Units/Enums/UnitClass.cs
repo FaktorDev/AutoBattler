@@ -1,6 +1,6 @@
 ﻿namespace GameLogic.Units.Enums;
 
-public enum UnitClass
+public enum UnitClasses
 {
     None = 0,
     Assassin,
@@ -17,38 +17,38 @@ public enum UnitClass
 
 public static class EUnitClassParse
 {
-    public static UnitClass Parse(string data)
+    public static UnitClasses Parse(string data)
     {
         return data switch
         {
-            "Assassin" => UnitClass.Assassin,
-            "Buffer" => UnitClass.Buffer,
-            "Controller" => UnitClass.Controller,
-            "Healer" => UnitClass.Healer,
-            "Mage" => UnitClass.Mage,
-            "Marksman" => UnitClass.Marksman,
-            "Support" => UnitClass.Support,
-            "Tank" => UnitClass.Tank,
-            "Warrior" => UnitClass.Warrior,
-            "Universal" => UnitClass.Universal,
-            _ => UnitClass.None,
+            "Assassin" => UnitClasses.Assassin,
+            "Buffer" => UnitClasses.Buffer,
+            "Controller" => UnitClasses.Controller,
+            "Healer" => UnitClasses.Healer,
+            "Mage" => UnitClasses.Mage,
+            "Marksman" => UnitClasses.Marksman,
+            "Support" => UnitClasses.Support,
+            "Tank" => UnitClasses.Tank,
+            "Warrior" => UnitClasses.Warrior,
+            "Universal" => UnitClasses.Universal,
+            _ => UnitClasses.None,
         };
     }
 
-    public static string Parse(UnitClass data)
+    public static string Parse(UnitClasses data)
     {
         return data switch
         {
-            UnitClass.Assassin => "Assassin",
-            UnitClass.Buffer => "Buffer",
-            UnitClass.Controller => "Controller",
-            UnitClass.Healer => "Healer",
-            UnitClass.Mage => "Mage",
-            UnitClass.Marksman => "Marksman",
-            UnitClass.Support => "Support",
-            UnitClass.Tank => "Tank",
-            UnitClass.Warrior => "Warrior",
-            UnitClass.Universal => "Universal",
+            UnitClasses.Assassin => "Assassin",
+            UnitClasses.Buffer => "Buffer",
+            UnitClasses.Controller => "Controller",
+            UnitClasses.Healer => "Healer",
+            UnitClasses.Mage => "Mage",
+            UnitClasses.Marksman => "Marksman",
+            UnitClasses.Support => "Support",
+            UnitClasses.Tank => "Tank",
+            UnitClasses.Warrior => "Warrior",
+            UnitClasses.Universal => "Universal",
             _ => "None",
         };
     }
