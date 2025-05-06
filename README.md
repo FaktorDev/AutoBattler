@@ -31,9 +31,6 @@ There are several reasons for this:
   
 ### - :outbox_tray: **Battle API**: Players can use the API to conduct automated battles, which allows them to test different scenarios.
   
-### - :calling: **Play via Telegram**: The game supports the interface via Telegram bot, which provides players with a convenient way to interact with the game.
-  
-
 # How to use it
 1. Copy the HTTPS link of the project.
 2. Open Visual Studio and clone the repository to your computer.
@@ -100,16 +97,6 @@ There are several reasons for this:
   ]
 }
 ```
-
-# For the player
-### Game tags: role-playing, strategy, rpg, auto-battle, fantasy: 
-
-At the moment, we have a lot of games to play. But in my opinion, many of them are quite boring, and more often than not, it's not because the ideas are bad, on the contrary, the ideas are cool, but the implementation is not very good due to its complexity. At the moment, I am learning and I aim to create a game that will really give you positive emotions. There are several reasons for this:
-1. There will be no P2W system.
-2. The game will not be manipulated to take your time.
-3. There will be no annoying skins that hurt your eyes and are designed to take your money.
-4. The plot of the game will be constantly changing so that there are no illogical moments.
-5. The setting of the game is very important, so sexualization and inappropriate skins will be absent.
 
 # Contacts:
 - **Email**: [mykhailo.honchar5@gmail.com](mailto:mykhailo.honchar5@gmail.com)
