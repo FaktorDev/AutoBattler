@@ -1,4 +1,4 @@
-# Description
+# Description [LEGACY]
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-Attribution--NonCommercial%204.0%20International,%20see%20LICENSE%20file-blue"></a>
 
 This project is a complex one, with various other projects responsible for their own tasks. You can read the code of each of them. But I will not provide the template of the database used for the game and where all the information is stored. If you are interested in it, I am ready to help you.
