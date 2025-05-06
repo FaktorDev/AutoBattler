@@ -18,11 +18,6 @@ mykhailo.honchar5@gmail.com
 | :-----------: |:-------------|
 |Game Logic| A project in which all the game logic is stored. The logic of configurations from Google Sheets can be found here. |
 |Game API| Since it is an online game, it has a server. This project is responsible for it, and with the help of this project, you can test the auto-battle system. |
-|Schedule Task Service| This is an interesting service that helps you create tasks that need to happen. It uses a database where tasks and the data they require are stored to know what needs to be done and when. Also, when the service is offline, after launching, it performs all the tasks that would have happened if it was online. |
-|Telegram Bot| The game needs an interface, and a good solution for the first versions is to use a Telegram bot. It contains the game interface in the form of keyboards and other telegram features. |
-|Core| It stores data that can be used in all projects. |
-|Database| Access to the database that uses Dapper. (In the first versions, it was Entity Framework Core, but due to its peculiarities, it was easier to use pure SQL) |
-
 ## Why does this project exist?
 There are several reasons for this:
 1. I am honing my knowledge on this project.
